@@ -19,6 +19,7 @@ export function Login() {
 
     await signInWithEmailAndPassword(auth, getEmail, getPass).then((response) => {
       console.log(response.user.providerData);
+      console.log(response.user.getIdToken());
       navigate(import.meta.env.VITE_USER_DASHBOARD);
     }).catch((error) => {
       console.log(error.code);
