@@ -28,7 +28,7 @@ export function Login() {
   }
 
   return (
-    <div>
+    <div className='mt-20'>
       <form>
         <input
           type="email"

@@ -5,7 +5,7 @@ export function Dashboard() {
   const auth = getAuth();  
 
   return (
-    <div>
+    <div className='mt-10'>
       <p>Dashboard</p>
       <button
         onClick={() => signOut(auth)}

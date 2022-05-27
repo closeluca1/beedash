@@ -1,12 +1,19 @@
-import React, { useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState, createContext, ReactNode} from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-import 'dotenv';
+
 
 export interface AuthRouteProps {
-  children: string | any;
+  children: ReactNode;
+
 }
+
+interface LoginProps {
+  login: boolean;
+}
+
+export const LoginContext = createContext({} as LoginProps);
 
 const AuthRoute: React.FunctionComponent<AuthRouteProps> = (props) => {
   
@@ -14,13 +21,17 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = (props) => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
+  
+  const [login, setLogin] = useState<boolean>(false); 
 
   useEffect(() => {
     const AuthCheck = onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoading(false);
+        setLogin(true);
       } else {
         console.log('usuário ou senha incorreto');
+        setLogin(false);
         navigate('/');
       }
     });
@@ -28,13 +39,19 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = (props) => {
     return () => AuthCheck();
   }, [auth]);
 
-  
 
   if (loading) return <>entrando ...</>
 
   return (
-    <>{ children }</>
+    <LoginContext.Provider value={{login}}>
+      { children }
+    </LoginContext.Provider>
+
   )
+}
+
+export function VerifyLogin () {
+  return useContext(LoginContext)
 }
 
 export default AuthRoute;
