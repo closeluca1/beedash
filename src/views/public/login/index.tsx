@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,9 +23,8 @@ export function Login() {
     setAuthing(true);
 
     await signInWithEmailAndPassword(auth, getEmail, getPass).then((response) => {
-      
-      console.log(response.user.providerData);
-      console.log(response.user.getIdToken());
+      // console.log(response.user.providerData);
+      console.log(response.user.uid);
       navigate(import.meta.env.VITE_USER_DASHBOARD);
     }).catch((error) => {
       console.log(error.code);
@@ -38,7 +37,7 @@ export function Login() {
       <div className='w-full md:max-w-5xl flex row flex-wrap-reverse'>
         
         <div className='w-full md:w-2/4 py-10 flex items-center justify-center'>
-          <img className='w-full h-auto' src={LoginThumb} alt="" />
+          <img className='w-full h-auto' src={LoginThumb} alt='Registrar em beedash' />
         </div>
 
         <section className='w-full md:w-2/4 px-5'>
@@ -53,14 +52,14 @@ export function Login() {
               <Input
                 label='E-mail'
                 type='email'
-                placeholder='E-mail'
-                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setGetEmail(event.target.value)}
+                placeholder='Digite seu e-mail'
+                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => console.log(setGetEmail(event.target.value))}
               />
 
               <Input
                 label='Senha'
                 type='password'
-                placeholder='Senha'
+                placeholder='Digite sua senha'
                 onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setGetPass(event.target.value)}
               />
 
@@ -82,7 +81,7 @@ export function Login() {
             <div className='w-full bg-zinc-50 mt-5 py-5 text-center rounded-sm'>
                 <span className='text-zinc-900'>
                   Não tem uma conta? 
-                  <a href="#" className='text-indigo-500 font-medium hover:text-indigo-900 transition-all duration-200'> Cadastre-se</a>
+                  <a href={import.meta.env.VITE_REGISTER} className='text-indigo-500 font-medium hover:text-indigo-900 transition-all duration-200'> Cadastre-se</a>
                 </span>
             </div>
 
