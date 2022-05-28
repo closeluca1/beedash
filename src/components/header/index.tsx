@@ -9,8 +9,8 @@ export function Header() {
 
 
   return (
-    <>
-    {login && (
+    // <>
+    // {login && (
       <div className='w-full flex justify-center py-3 shadow-sm bg-zinc-50 fixed top-0 left-0'>
         <div className='w-full flex justify-between items-center max-w-4xl px-5'>
 
@@ -26,7 +26,7 @@ export function Header() {
         </div>
       </div>
 
-    )}
-  </>
+  //   )}
+  // </>
   )
 }

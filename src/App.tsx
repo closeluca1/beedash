@@ -25,8 +25,6 @@ export function App() {
 
       {/* <AuthRoute> */}
 
-
-
       <Routes>
 
         <Route
