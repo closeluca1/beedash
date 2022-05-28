@@ -24,7 +24,7 @@ export function App() {
     <BrowserRouter>
 
       {/* <AuthRoute> */}
-
+    
       <Routes>
 
         <Route

@@ -67,6 +67,7 @@ export function Login() {
               <Button
                 onClick={() => signInWithAccount()}
                 title='Entrar'
+                disabled={authing}
               />
 
             </form>
