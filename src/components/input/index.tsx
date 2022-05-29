@@ -17,6 +17,7 @@ export function Input({ label, type, placeholder, onChange }: InputProps) {
         onChange={onChange}
         minLength={5}
         maxLength={50}
+        autoComplete="false"
       />
     </div>
   )

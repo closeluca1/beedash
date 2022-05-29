@@ -21,18 +21,19 @@ export function Register() {
   const [createEmail, setCreateEmail] = useState('');
   const [createPass, setCreatePass] = useState('');
 
-  const { getUserToken, setDocUser, setGetName, setGetLastName } = createDataUserService();
+  const { getUserToken, setDocUser, docUser, firsName, lastName, setFirsName, setLastName } = createDataUserService();
 
   const createAccount = async (e: any) => {
-    // e.preventDefault();
-    // setAuthing(true);
+    e.preventDefault();
+    setAuthing(true);
+
     // try {
-    //   await console.log({
-    //     getName,
-    //     getLastName,
+    //   await console.log(
+    //     firsName,
+    //     lastName,
     //     createEmail,
-    //     createPass
-    //   })
+    //     createPass,
+    //   )
     // } catch (error) {
     //   console.log(error)
     // }
@@ -40,10 +41,12 @@ export function Register() {
     await createUserWithEmailAndPassword(auth, createEmail, createPass).then((response) => {
 
       try {
-        const getToken = setDocUser(response.user.uid.toString())
-        getUserToken(getToken);
+        
+        const validateUser = setDocUser(response.user.uid)
+        console.log(response.user.uid)
+        getUserToken(validateUser)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
 
       setTimeout(() => {
@@ -53,7 +56,8 @@ export function Register() {
       console.log(error);
       setAuthing(false);
     })
-  }
+
+  };
 
   return (
     <div className='mt-10 md:mt-0 w-full min-h-[90vh] flex justify-center items-center px-5'>
@@ -73,7 +77,7 @@ export function Register() {
                 label='Nome'
                 type='text'
                 placeholder='Qual seu primeiro nome?'
-                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setGetName(event.target.value)}
+                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setFirsName(event.target.value)}
               />
 
 
@@ -81,7 +85,7 @@ export function Register() {
                 label='Sobrenome'
                 type='text'
                 placeholder='Qual seu sobrenome?'
-                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setGetLastName(event.target.value)}
+                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setLastName(event.target.value)}
               />
 
 

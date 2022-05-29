@@ -12,8 +12,10 @@ interface ServiceUserProps {
   getUserToken: any;
   docUser: string;
   setDocUser: any;
-  setGetName: any;
-  setGetLastName: any;
+  setFirsName: any;
+  setLastName: any;
+  firsName: string;
+  lastName: string;
 }
 
 export const ServiceContext = createContext({} as ServiceUserProps);
@@ -22,23 +24,23 @@ export const RegisterService = ({ children }: UserProvideProps) => {
 
   const [docUser, setDocUser] = useState<null | any>()
 
-  const [firstName, setGetName] = useState('');
-  const [lastName, setGetLastName] = useState('');
-
-  // const [registerDate] = useState<any>(new Date().toString());
-  const [userUid] = useState<string>('');
-  // const [description, setDescription] = useState<null | string>('Ola, este é meu perfil beedash. (:')
-  // const [beFan, setBeFan] = useState<object>();
-  // const [myFans, setMyFans] = useState<object>();
-  // const [mygroup] = useState<object>();
-  // const [associate] = useState<object>();
-  // const [icon] = useState<string>();
+  const [firsName, setFirsName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   function getUserToken() {
     setDoc(doc(db, "users", docUser, 'user', 'personal'), {
-      firstName,
+      firsName,
       lastName,
       'registerDate': new Date().toString(),
+      'social': {
+        'github': '',
+        'linkedin': '',
+        'instagram': '',
+        'tiktok': '',
+        'youtube': '',
+        'site': '',
+        'other': '',
+      }
     });
 
     setDoc(doc(db, 'users', docUser, 'user', 'permissions'), {
@@ -47,16 +49,35 @@ export const RegisterService = ({ children }: UserProvideProps) => {
     });
 
     setDoc(doc(db, 'users', docUser, 'user', 'profile'), {
-      'myFans': {},
-      'beFan': {},
+      'followers': {},
+      'following': {},
       'myGroup': {},
       'associate': {},
       'description': 'Olá, este é meu perfil beedash. (:',
+      'roles': {
+        'developer': [
+          'FrontEnd',
+          'BackEnd',
+          'fullstack',
+          'Mobile',
+          'Web',
+          'Desktop',
+          'Games',
+        ],
+        'creator': [
+          'Design', 
+          'Social Media', 
+          'Video Maker', 
+          'Writer',
+          'Photograph',
+        ],
+        'level': [0,1,2,3,4,5]
+      }
     });
   }
 
   return (
-    <ServiceContext.Provider value={{ getUserToken, docUser, setDocUser, setGetName, setGetLastName }}>
+    <ServiceContext.Provider value={{ getUserToken, docUser, setDocUser, setFirsName, setLastName, firsName, lastName }}>
       {children}
     </ServiceContext.Provider>
   )

@@ -53,7 +53,7 @@ export function Login() {
                 label='E-mail'
                 type='email'
                 placeholder='Digite seu e-mail'
-                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => console.log(setGetEmail(event.target.value))}
+                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setGetEmail(event.target.value)}
               />
 
               <Input
