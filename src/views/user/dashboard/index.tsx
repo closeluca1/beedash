@@ -13,11 +13,8 @@ export function Dashboard() {
   }
 
   return (
-    <div className='mt-10'>
-      <p>Dashboard</p>
-      <button
-        onClick={getOut}
-      >sair</button>
+    <div className='mt-20'>
+      home
     </div>
   )
 }
