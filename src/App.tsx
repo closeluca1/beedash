@@ -7,7 +7,7 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from "firebase/firestore";
 import { config } from './database/index';
 
-import AuthRoute, { LoginContext } from './contexts/auth';
+import AuthRoute, { VerifyLogin } from './contexts/auth';
 import { HeaderService } from './contexts/header';
 import { RegisterService } from './contexts/register';
 
@@ -22,49 +22,56 @@ export const db = getFirestore(app);
 
 export function App() {
   return (
-    <BrowserRouter>
 
-      {/* <AuthRoute> */}
-      <RegisterService>
-      <Routes>
-        
+      <BrowserRouter>
 
-        <Route
-          path={import.meta.env.VITE_HOME}
-          element={<Home />}
-        />
-        
-        
+        <RegisterService>
+          <Routes>
 
-        
-        <Route
-          path={import.meta.env.VITE_REGISTER}
-          element={<Register />}
-        />
+            <Route
+              path={import.meta.env.VITE_REGISTER}
+              element={<Register />}
+            />
 
-        <Route
-          path={import.meta.env.VITE_USER_LOGIN}
-          element={<Login />}
-        />
+            <Route
+              path={import.meta.env.VITE_USER_LOGIN}
+              element={<Login />}
+            />
 
-        <Route
-          path={import.meta.env.VITE_USER_DASHBOARD}
-          element={
-            <AuthRoute>
-              <HeaderService>
-                <Header />
-              </HeaderService>
-              <Dashboard />
-            </AuthRoute>
-          }
-        />
+            <Route
+              path={import.meta.env.VITE_HOME}
+              element={
+                <AuthRoute>
 
-      </Routes>
-      </RegisterService>
-      {/* </AuthRoute> */}
+                  <HeaderService>
+                    <Header />
+                  </HeaderService>
 
-    </BrowserRouter>
+                  <Home />
+
+                </AuthRoute>
+              }
+            />
+
+            <Route
+              path={import.meta.env.VITE_USER_DASHBOARD}
+              element={
+                <AuthRoute>
+
+                  <HeaderService>
+                    <Header />
+                  </HeaderService>
+
+                  <Dashboard />
+
+                </AuthRoute>
+              }
+            />
+
+          </Routes>
+        </RegisterService>
+
+      </BrowserRouter>
   )
 }
-
 export default App;

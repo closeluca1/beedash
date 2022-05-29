@@ -6,6 +6,7 @@ import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
 
 import LoginThumb from '../../../assets/login_thumb.svg';
+import { VerifyLogin } from '../../../contexts/auth';
 
 import 'dotenv';
 
@@ -13,7 +14,7 @@ export function Login() {
 
   const auth = getAuth();
   const navigate = useNavigate();
-
+  
   const [authing, setAuthing] = useState<boolean>(false);
 
   const [getEmail, setGetEmail] = useState<string>('');
@@ -21,11 +22,10 @@ export function Login() {
 
   const signInWithAccount = async () => {
     setAuthing(true);
+    
 
     await signInWithEmailAndPassword(auth, getEmail, getPass).then((response) => {
-      // console.log(response.user.providerData);
-      console.log(response.user.uid);
-      navigate(import.meta.env.VITE_USER_DASHBOARD);
+      navigate(import.meta.env.VITE_HOME);
     }).catch((error) => {
       console.log(error.code);
       setAuthing(false);      

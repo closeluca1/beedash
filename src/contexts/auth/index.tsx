@@ -11,6 +11,7 @@ export interface AuthRouteProps {
 
 interface LoginProps {
   login: boolean;
+  setLogin: any;
 }
 
 export const LoginContext = createContext({} as LoginProps);
@@ -43,7 +44,7 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = (props) => {
   if (loading) return <>entrando ...</>
 
   return (
-    <LoginContext.Provider value={{login}}>
+    <LoginContext.Provider value={{login, setLogin}}>
       { children }
     </LoginContext.Provider>
 

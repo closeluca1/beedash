@@ -50,7 +50,7 @@ export function Register() {
       }
 
       setTimeout(() => {
-        navigate(import.meta.env.VITE_USER_DASHBOARD);
+        navigate(import.meta.env.VITE_USER_VITE_HOME);
       }, 1000);
     }).catch((error) => {
       console.log(error);
