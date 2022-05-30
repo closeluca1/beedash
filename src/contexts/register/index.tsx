@@ -1,7 +1,10 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
-import { db } from '../../App';
 
+import 'dotenv';
+
+import { db } from '../../App';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { addDoc, collection, doc, getDocs, setDoc } from 'firebase/firestore';
 
 interface UserProvideProps {
@@ -22,12 +25,35 @@ export const ServiceContext = createContext({} as ServiceUserProps);
 
 export const RegisterService = ({ children }: UserProvideProps) => {
 
+
   const [docUser, setDocUser] = useState<null | any>()
 
-  const [firsName, setFirsName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [firsName, setFirsName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       // const validate = { docUser: user.uid }
+  //       if (auth.currentUser) {
+  //         setDocUser(auth.currentUser.uid)
+  //         try {
+  //           getUserToken()
+  //           navigate(import.meta.env.VITE_HOME);
+  //         } catch (error) {
+  //           console.log(error)
+  //         }
+  //       }
+  //     }
+  //   });
+  // }, [])
+
 
   function getUserToken() {
+    console.log(firsName)
+    console.log(lastName)
+    console.log(docUser)
     setDoc(doc(db, "users", docUser, 'user', 'personal'), {
       firsName,
       lastName,
@@ -65,13 +91,13 @@ export const RegisterService = ({ children }: UserProvideProps) => {
           'Games',
         ],
         'creator': [
-          'Design', 
-          'Social Media', 
-          'Video Maker', 
+          'Design',
+          'Social Media',
+          'Video Maker',
           'Writer',
           'Photograph',
         ],
-        'level': [0,1,2,3,4,5]
+        'level': [0, 1, 2, 3, 4, 5]
       }
     });
   }

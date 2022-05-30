@@ -10,6 +10,7 @@ import { config } from './database/index';
 import AuthRoute, { VerifyLogin } from './contexts/auth';
 import { HeaderService } from './contexts/header';
 import { RegisterService } from './contexts/register';
+import { StateUserService } from './contexts/user';
 
 import { Home } from './views/public/home';
 import { Login } from './views/public/login';
@@ -21,57 +22,60 @@ const app = initializeApp(config.firebaseConfig);
 export const db = getFirestore(app);
 
 export function App() {
+
   return (
 
-      <BrowserRouter>
+    <BrowserRouter>
+      <StateUserService>
+        <Routes>
 
-        <RegisterService>
-          <Routes>
+          <Route
+            path={import.meta.env.VITE_REGISTER}
+            element={
+              <RegisterService>
+                <Register />
+              </RegisterService>
+            }
+          />
 
-            <Route
-              path={import.meta.env.VITE_REGISTER}
-              element={<Register />}
-            />
+          <Route
+            path={import.meta.env.VITE_USER_LOGIN}
+            element={<Login />}
+          />
 
-            <Route
-              path={import.meta.env.VITE_USER_LOGIN}
-              element={<Login />}
-            />
+          <Route
+            path={import.meta.env.VITE_HOME}
+            element={
+              <AuthRoute>
 
-            <Route
-              path={import.meta.env.VITE_HOME}
-              element={
-                <AuthRoute>
+                <HeaderService>
+                  <Header />
+                </HeaderService>
 
-                  <HeaderService>
-                    <Header />
-                  </HeaderService>
+                <Home />
 
-                  <Home />
+              </AuthRoute>
+            }
+          />
 
-                </AuthRoute>
-              }
-            />
+          <Route
+            path={import.meta.env.VITE_USER_DASHBOARD}
+            element={
+              <AuthRoute>
 
-            <Route
-              path={import.meta.env.VITE_USER_DASHBOARD}
-              element={
-                <AuthRoute>
+                <HeaderService>
+                  <Header />
+                </HeaderService>
 
-                  <HeaderService>
-                    <Header />
-                  </HeaderService>
+                <Dashboard />
 
-                  <Dashboard />
+              </AuthRoute>
+            }
+          />
 
-                </AuthRoute>
-              }
-            />
-
-          </Routes>
-        </RegisterService>
-
-      </BrowserRouter>
+        </Routes>
+      </StateUserService>
+    </BrowserRouter>
   )
 }
 export default App;

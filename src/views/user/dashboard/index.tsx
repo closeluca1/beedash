@@ -8,7 +8,7 @@ export function Dashboard() {
 
   function getOut () {
     setLogin(false);
-    console.log(login)
+    // console.log(login)
     signOut(auth)
   }
 

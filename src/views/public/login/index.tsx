@@ -6,7 +6,6 @@ import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
 
 import LoginThumb from '../../../assets/login_thumb.svg';
-import { VerifyLogin } from '../../../contexts/auth';
 
 import 'dotenv';
 

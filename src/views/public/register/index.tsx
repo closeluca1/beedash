@@ -2,6 +2,8 @@ import React, { FormEvent, SetStateAction, useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+
 import { Input } from '../../../components/input';
 import { Button } from '../../../components/button';
 
@@ -9,7 +11,7 @@ import { createDataUserService } from '../../../contexts/register';
 
 import RegisterThumb from '../../../assets/register_thumb.svg';
 
-import 'dotenv';
+import { useEffect } from 'react';
 
 export function Register() {
 
@@ -23,7 +25,24 @@ export function Register() {
 
   const { getUserToken, setDocUser, docUser, firsName, lastName, setFirsName, setLastName } = createDataUserService();
 
-  const createAccount = async (e: any) => {
+  const [seePass, setSeePass] = useState<boolean>(false)
+  const [typePass, setTypePass] = useState<string>('password');
+
+  const [getUser, setGetUser] = useState<string>();
+
+  function watchPass() {
+    if (seePass === false) {
+      setTypePass('password');
+    } else if (seePass === true) {
+      setTypePass('text');
+    }
+  }
+
+  useEffect(() => {
+    watchPass();
+  })
+
+  async function createAccount(e: any) {
     e.preventDefault();
     setAuthing(true);
 
@@ -33,35 +52,49 @@ export function Register() {
     //     lastName,
     //     createEmail,
     //     createPass,
+    //     docUser
     //   )
     // } catch (error) {
     //   console.log(error)
     // }
 
     await createUserWithEmailAndPassword(auth, createEmail, createPass).then((response) => {
+      console.log('response',response)
+      // // const validate = { docUser: response.user.uid }
+      // const validateUser = setDocUser(response.user.uid);
+      // console.log('validate user',validateUser)
+      // try {
+      //     getUserToken(validateUser)
 
-      try {
+      //     console.log('doc user', validateUser)
+      //     console.log(getUserToken(validateUser))
+
+      // } catch (error) {
+      //   console.log(error)
+      // }
+
+      // console.log('doc user', docUser)
+      setDocUser(response.user.uid)      
+      console.log('uid', response.user.uid)
         
-        const validateUser = setDocUser(response.user.uid)
-        console.log(response.user.uid)
-        getUserToken(validateUser)
-      } catch (error) {
-        console.log(error)
-      }
-
-      setTimeout(() => {
-        navigate(import.meta.env.VITE_USER_VITE_HOME);
-      }, 1000);
     }).catch((error) => {
       console.log(error);
       setAuthing(false);
     })
+    
+    console.log('docuser', docUser);
+    getUserToken(docUser);
+    
+    setTimeout(() => {
+      navigate(import.meta.env.VITE_HOME);
+    }, 500);
 
   };
 
+
   return (
     <div className='mt-10 md:mt-0 w-full min-h-[90vh] flex justify-center items-center px-5'>
-      <div className='w-full md:max-w-5xl flex row flex-wrap-reverse'>
+      <div className='w-full md:max-w-5xl flex row flex-wrap'>
         <section className='w-full md:w-2/4 px-5'>
 
           <div className='bg-zinc-50 py-10 rounded-sm'>
@@ -77,6 +110,9 @@ export function Register() {
                 label='Nome'
                 type='text'
                 placeholder='Qual seu primeiro nome?'
+                maxLength='40'
+                pattern='^[a-zA-ZÀ-ÿ/" "]+$'
+                title='Somente letras'
                 onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setFirsName(event.target.value)}
               />
 
@@ -85,23 +121,42 @@ export function Register() {
                 label='Sobrenome'
                 type='text'
                 placeholder='Qual seu sobrenome?'
+                maxLength='40'
+                pattern='^[a-zA-ZÀ-ÿ/" "]+$'
+                title='Somente letras'
                 onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setLastName(event.target.value)}
               />
+
 
 
               <Input
                 label='E-mail'
                 type='email'
                 placeholder='Digite seu melhor e-mail'
+                maxLength='30'
+                pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                title='Formato de e-mail incorreto'
                 onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setCreateEmail(event.target.value)}
               />
 
-              <Input
-                label='Senha'
-                type='password'
-                placeholder='Digite uma senha segura'
-                onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setCreatePass(event.target.value)}
-              />
+
+
+              <div className='w-full px-5 flex flex-row items-center'>
+                <Input
+                  label='Senha'
+                  type={typePass}
+                  placeholder='Digite uma senha segura'
+                  maxLength='50'
+                  pattern='.{8,}'
+                  title='Sua senha não pode ser fraca'
+                  onChange={(event: { target: { value: React.SetStateAction<string>; }; }) => setCreatePass(event.target.value)}
+                />
+                <span className='ml-4 pt-3 cursor-pointer' onClick={() => setSeePass(!seePass)}>
+
+                  {seePass ? <AiOutlineEye className='w-5 h-5' /> : <AiOutlineEyeInvisible className='w-5 h-5' />}
+
+                </span>
+              </div>
 
               <Button
                 onClick={createAccount}
