@@ -1,5 +1,5 @@
-import React, { FormEvent, SetStateAction, useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from 'firebase/auth';
+import React, { useState } from 'react';
+import { getAuth, createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
@@ -80,24 +80,18 @@ export function Register() {
     e.preventDefault();
     setAuthing(true);
 
-
-    console.log('teste1')
-
     if (firsName == '' || firsName.length < 2 || lastName == '' || lastName.length < 2 || createEmail == '' || createEmail.length < 5 || createPass == '' || createPass.length < 6) {
-      console.log('teste2');
       handleWarningAdvice();
       setWarningMessage('Preencha os campos vazios')
     }
 
     await createUserWithEmailAndPassword(auth, createEmail, createPass).then((response) => {
 
-      console.log(response);
       
       updateProfile(response.user, {
         displayName: firsName,
       });
       
-      console.log(user?.displayName)
       setDoc(doc(db, "users", response.user.uid, 'user', 'personal'), {
         firsName,
         lastName,
