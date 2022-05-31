@@ -68,7 +68,6 @@ export function Login() {
     await signInWithEmailAndPassword(auth, getEmail, getPass).then((response) => {
       navigate(import.meta.env.VITE_HOME);
     }).catch((error) => {
-      console.log(error.code);
       setAuthing(false);
 
       handleWarningPanic();

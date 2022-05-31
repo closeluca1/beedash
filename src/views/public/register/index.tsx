@@ -18,7 +18,6 @@ import { doc, setDoc } from 'firebase/firestore';
 export function Register() {
 
   const auth = getAuth();
-  const user = auth.currentUser;
   const navigate = useNavigate();
 
   const [authing, setAuthing] = useState<boolean>(false);
