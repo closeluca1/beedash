@@ -17,6 +17,7 @@ import { Register } from './views/public/register';
 import { Dashboard } from './views/user/dashboard';
 import { Header } from './components/header';
 import { Error404 } from './views/public/error';
+import { Footer } from './views/footer';
 
 const app = initializeApp(config.firebaseConfig);
 export const db = getFirestore(app);
@@ -30,13 +31,8 @@ export function App() {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      setVerifyUser(true)
-      // ...
+      setVerifyUser(true);
     } else {
-      // User is signed out
-      // ...
       setVerifyUser(false);
     }
   });
@@ -109,8 +105,9 @@ export function App() {
           </>
 
         }
-
+        
       </Routes>
+      <Footer/>
       {/* </StateUserService> */}
     </BrowserRouter>
   )
