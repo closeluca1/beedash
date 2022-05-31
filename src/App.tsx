@@ -11,10 +11,11 @@ import AuthRoute, { VerifyLogin } from './contexts/auth';
 import { HeaderService } from './contexts/header';
 import { RegisterService } from './contexts/register';
 
-import { Home } from './views/user/home';
 import { Login } from './views/public/login';
 import { Register } from './views/public/register';
+import { ForgotPassword } from './views/public/forgotPassword';
 import { Dashboard } from './views/user/dashboard';
+import { Home } from './views/user/home';
 import { Header } from './components/header';
 import { Error404 } from './views/public/error';
 import { Footer } from './views/footer';
@@ -100,6 +101,11 @@ export function App() {
                   <Register />
                 </RegisterService>
               }
+            />
+
+            <Route
+              path={import.meta.env.VITE_FORGOT_PASSWORD}
+              element={<ForgotPassword/>}
             />
 
           </>
