@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import 'dotenv';
@@ -20,10 +20,26 @@ import { Error404 } from './views/public/error';
 
 const app = initializeApp(config.firebaseConfig);
 export const db = getFirestore(app);
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export function App() {
 
-  const { login } = VerifyLogin();
+  const auth = getAuth();
+
+  const [verifyUser, setVerifyUser] = useState<boolean>();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      setVerifyUser(true)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+      setVerifyUser(false);
+    }
+  });
 
   return (
 
@@ -32,26 +48,9 @@ export function App() {
       {/* <StateUserService> */}
       <Routes>
 
-        {login ?
+        <Route path='*' element={<Error404 />} />
 
-          <>
-            <Route
-              path={import.meta.env.VITE_REGISTER}
-              element={
-                <RegisterService>
-                  <Register />
-                </RegisterService>
-              }
-            />
-
-            <Route
-              path={import.meta.env.VITE_USER_LOGIN}
-              element={<Login />}
-            />
-          </>
-
-
-          :
+        {verifyUser ?
 
           <>
             <Route
@@ -59,11 +58,13 @@ export function App() {
               element={
                 <AuthRoute>
 
-                  <HeaderService>
-                    <Header />
-                  </HeaderService>
+                  <>
+                    <HeaderService>
+                      <Header />
+                    </HeaderService>
 
-                  <Home />
+                    <Home />
+                  </>
 
                 </AuthRoute>
               }
@@ -74,22 +75,40 @@ export function App() {
               element={
                 <AuthRoute>
 
-                  <HeaderService>
-                    <Header />
-                  </HeaderService>
+                  <>
+                    <HeaderService>
+                      <Header />
+                    </HeaderService>
 
-                  <Dashboard />
+                    <Dashboard />
+                  </>
 
                 </AuthRoute>
               }
             />
           </>
 
+          :
+
+          <>
+
+            <Route
+              path={import.meta.env.VITE_USER_LOGIN}
+              element={<Login />}
+            />
+
+            <Route
+              path={import.meta.env.VITE_REGISTER}
+              element={
+                <RegisterService>
+                  <Register />
+                </RegisterService>
+              }
+            />
+
+          </>
 
         }
-
-        <Route path='*' element={<Error404 />} />
-
 
       </Routes>
       {/* </StateUserService> */}
