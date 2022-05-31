@@ -148,7 +148,7 @@ export function Login() {
             </form>
 
             <div className='w-full grid grid-1 justify-items-center mt-10'>
-              <a href='#'>
+              <a href={import.meta.env.VITE_FORGOT_PASSWORD}>
                 <span className='text-sm text-indigo-500 hover:text-indigo-900 transition-all duration-200'>Esqueceu a senha?</span>
               </a>
             </div>
