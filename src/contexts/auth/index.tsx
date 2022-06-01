@@ -12,6 +12,8 @@ export interface AuthRouteProps {
 interface LoginProps {
   login: boolean;
   setLogin: any;
+  setUserName: any | undefined | null;
+  userName: string | undefined | null;
 }
 
 export const LoginContext = createContext({} as LoginProps);
@@ -25,11 +27,16 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = (props) => {
   
   const [login, setLogin] = useState<boolean>(false); 
 
+  const [userName, setUserName] = useState<string | null>()
+
   useEffect(() => {
     const AuthCheck = onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user && user.uid) {
         setLoading(false);
         setLogin(true);
+        
+        setUserName(user.displayName);
+
       } else {
         console.log('usuário ou senha incorreto');
         setLogin(false);
@@ -41,10 +48,12 @@ const AuthRoute: React.FunctionComponent<AuthRouteProps> = (props) => {
   }, [auth]);
 
 
+
+
   if (loading) return <>entrando ...</>
 
   return (
-    <LoginContext.Provider value={{login, setLogin}}>
+    <LoginContext.Provider value={{login, setLogin, setUserName, userName}}>
       { children }
     </LoginContext.Provider>
 
