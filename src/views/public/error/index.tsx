@@ -18,7 +18,7 @@ export function Error404() {
   });
 
   return (
-    <div className='w-full min-h-[80vh] flex flex-col items-center justify-center'>
+    <div className='w-full min-h-[90vh] flex flex-col items-center justify-center'>
       <h5 className='text-lg'>Algo errado não esta certo!</h5>
       <a href={`${verifyUser}`}><h6 className='text-sm text-indigo-500 hover:text-indigo-900 transition-all duration-200'>voltar para página inicial</h6></a>
     </div>
