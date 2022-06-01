@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, matchPath } from 'react-router-dom';
 
 import 'dotenv';
 
@@ -96,7 +96,7 @@ export function App() {
                       <Header />
                     </HeaderService>
 
-                    <UserConfig/>
+                    <UserConfig />
                   </>
 
                 </AuthRoute>
