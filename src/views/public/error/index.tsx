@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 import 'dotenv'
 
 export function Error404() {
 
   const auth = getAuth();
+  const navigate = useNavigate();
 
   const [verifyUser, setVerifyUser] = useState<string | null>()
 
@@ -13,9 +15,13 @@ export function Error404() {
     if (user) {
       setVerifyUser(import.meta.env.VITE_USER_DASHBOARD);
     } else {
-      setVerifyUser(import.meta.env.VITE_USER_LOGIN);
+      useEffect(() => {
+        navigate(import.meta.env.VITE_USER_LOGIN);
+      });
     }
   });
+
+  useState()
 
   return (
     <div className='w-full min-h-[90vh] flex flex-col items-center justify-center'>

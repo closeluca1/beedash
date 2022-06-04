@@ -35,8 +35,9 @@ export function UserConfig() {
           // setFeedbacks(data.docs.map((doc: any) => ({ ...doc.data(), id: doc.id })));
 
           // console.log(data.doc)
-          console.log(data.docs)
-          console.log(data.docs.map((doc: any) => ({...doc.data()})))
+          // console.log(data.docs)
+          console.log(data.docs.map((doc: any) => ({ ...doc.data() })));
+          setFeedbacks(data.docs.map((doc: any) => ({ ...doc.data() })));
         }
         getFeedbacks();
 
@@ -46,7 +47,7 @@ export function UserConfig() {
       )
     });
 
-  })
+  }, [])
 
 
 
@@ -54,7 +55,15 @@ export function UserConfig() {
     <div className='w-full flex justify-center'>
       <div className='w-full flex justify-between items-center rounded-sm max-w-3xl p-5 mt-20 bg-zinc-50'>
 
-        {feedbacks}
+        {
+          feedbacks.map((doc, index) => {
+            return (
+              <div key={index}>
+                <span>{doc.firsName} {doc.lastName}</span>
+              </div>
+            )
+          })
+        }
 
       </div>
     </div>
